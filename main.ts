@@ -7,6 +7,12 @@ import { join } from "node:path";
 const LINE =
   "My fridge's ice maker sounds like cutlery in a washing machine and makes one cube an hour, like it's rationing winter.";
 
+// The bounty caps the line at 160 characters, so fail loudly here
+// instead of ever writing out something over the limit.
+if (LINE.length > 160) {
+  throw new Error("roast line exceeds the 160-character limit");
+}
+
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, "entry.txt"), LINE, "utf8");
